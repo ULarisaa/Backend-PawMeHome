@@ -215,7 +215,7 @@ router.post('/addDevice', async (req, res) => {
   const { pet_id, device_id } = req.body;
 
   if (!pet_id || !device_id) {
-    return res.status(400).send('Pet_id și device_id lipsesc');
+    return res.status(400).send('Missing pet_id and device_id');
   }
 
   const client = await req.pool.connect();  
@@ -231,7 +231,7 @@ router.post('/addDevice', async (req, res) => {
 
     if (petResult.rows.length === 0) {
       await client.query('ROLLBACK');  
-      return res.status(404).send('Animalul nu a fost găsit');
+      return res.status(404).send('Pet not found');
     }
 
 
@@ -251,8 +251,8 @@ router.post('/addDevice', async (req, res) => {
     res.status(200).json({ status: 'success', data: petResult.rows[0] });
   } catch (error) {
     await client.query('ROLLBACK');  
-    console.error('Eroare la actualizarea datelor:', error);
-    res.status(500).send('Eroare la actualizarea datelor');
+    console.error('Error updating data:', error);
+    res.status(500).send('Error updating data');
   } finally {
     client.release(); 
   }
@@ -269,7 +269,7 @@ router.post('/updateIsWalking', async (req, res) => {
       );
 
       if (petQuery.rows.length === 0) {
-          return res.status(404).send('Nu s-a găsit animalul cu ID-ul specificat');
+        return res.status(404).send('The animal with the specified ID was not found');
       }
 
       const device_id = petQuery.rows[0].device_id;
@@ -280,11 +280,11 @@ router.post('/updateIsWalking', async (req, res) => {
           [isWalking, device_id]
       );
 
-      res.status(200).send('Valoarea is_walking a fost actualizată cu succes');
-  } catch (error) {
-      console.error('Eroare la actualizarea valorii is_walking:', error);
-      res.status(500).send('Eroare la actualizarea valorii is_walking');
-  }
+      res.status(200).send('The is_walking value has been successfully updated');
+} catch (error) {
+    console.error('Error updating the is_walking value:', error);
+    res.status(500).send('Error updating the is_walking value');
+}
 });
 
 

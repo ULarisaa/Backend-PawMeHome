@@ -51,7 +51,7 @@ const pointInPolygon = (point, polygon) => {
               for (const coord of coordinates) {
                   const petId = deviceToPetMap[coord.device_id];
                   if (!petId) {
-                      console.error(`Nu s-a găsit un pet_id asociat pentru device_id-ul ${coord.device_id}`);
+                    console.error(`No pet_id associated with device_id ${coord.device_id} was found`);
                       continue;
                   }
   
@@ -59,7 +59,7 @@ const pointInPolygon = (point, polygon) => {
                   await updateInSafeZoneStatus(coord.id, isInSafeZone);
               }
           } catch (error) {
-              console.error('Eroare la verificarea coordonatelor în zonele sigure:', error);
+            console.error('Error checking coordinates in safe zones:', error);
           }
       };
   
@@ -74,10 +74,10 @@ const pointInPolygon = (point, polygon) => {
               'UPDATE location SET in_safe_zone = $1 WHERE id = $2',
               [isInSafeZone, locationId]
           );
-          console.log(`Starea in_safe_zone pentru locația cu ID-ul ${locationId} a fost actualizată cu succes cu ${isInSafeZone}`);
-      } catch (error) {
-          console.error(`Eroare la actualizarea stării in_safe_zone pentru locația cu ID-ul ${locationId}:`, error);
-      }
+          console.log(`The in_safe_zone status for location with ID ${locationId} was successfully updated to ${isInSafeZone}`);
+        } catch (error) {
+            console.error(`Error updating the in_safe_zone status for location with ID ${locationId}:`, error);
+        }        
   };
   
   module.exports = { checkSafeZonesPeriodically };

@@ -9,7 +9,7 @@ let expo = new Expo();
 
 async function sendPushNotification(token, message, petId) {
     if (!Expo.isExpoPushToken(token)) {
-        throw new Error(`Tokenul push ${token} nu este un token Expo valid`);
+        throw new Error(`The push token ${token} is not a valid Expo token`);
     }
 
     console.log('Pet ID in sendPushNotification:', petId);
@@ -32,7 +32,7 @@ async function sendPushNotification(token, message, petId) {
             let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
             tickets.push(...ticketChunk);
         } catch (error) {
-            console.error("Eroare la trimiterea bucății de notificare:", error);
+            console.error("Error sending notification chunk:", error);
             throw error;
         }
     }
